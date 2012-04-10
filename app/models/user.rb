@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
 
   before_save :encrypt_password
 
+  has_many :microposts, :dependent => :destroy
+
   def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
   end
@@ -30,6 +32,10 @@ class User < ActiveRecord::Base
   def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
     (user && user.salt == cookie_salt) ? user : nil
+  end
+
+  def feed
+    Micropost.where("user_id = ?", id)
   end
 
   private
