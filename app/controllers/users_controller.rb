@@ -2,7 +2,8 @@ class UsersController < ApplicationController
 
   include SessionsHelper
 
-  before_filter :authenticate,  :only => [:index, :edit, :update]
+  #before_filter :authenticate,  :only => [:index, :edit, :update]
+  before_filter :authenticate,  :except => [:show, :edit, :update]
   before_filter :correct_user,  :only => [:edit, :update]
   before_filter :admin_user,    :only => :destroy
 
@@ -55,6 +56,21 @@ class UsersController < ApplicationController
     User.find(params[:id]).destroy
     flash[:success] = "User destroed."
     redirect_to users_path
+  end
+
+  def following
+    show_follow(:following)
+  end
+
+  def followers
+    show_follow(:followers)
+  end
+
+  def show_follow(action)
+    @title = action.to_s.capitalize
+    @user = User.find(params[:id])
+    @users = @user.send(action).paginate(:page => params[:page])
+    render "show_follow"
   end
 
   private

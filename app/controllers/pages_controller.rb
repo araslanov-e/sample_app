@@ -1,4 +1,4 @@
-class PagesController < ApplicationController
+ class PagesController < ApplicationController
   include SessionsHelper
 
   def home

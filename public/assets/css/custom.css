@@ -135,6 +135,10 @@ td.sidebar {
     white-space: nowrap;
 }
 
+td.sidebar .users {
+    white-space: normal;
+}
+
 .profile img.gravatar {
     border: 1px solid #999;
     margin-bottom: -15px;
